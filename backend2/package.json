@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "backend2",
   "version": "1.0.0",
   "description": "Professional Node.js Backend Boilerplate by Hammad Abbas",
   "main": "index.js",
@@ -17,11 +17,12 @@
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mailgen": "^2.0.31",
+    "mailgen": "^2.0.32",
     "mongoose": "^8.19.1",
     "nodemailer": "^7.0.9",
     "zod": "^4.1.12"
