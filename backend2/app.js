@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { errorHandler } from "./src/core/middleware/errorHandler.js";
 import authRouter from "./src/modules/auth/auth.route.js";
+import authAdminRouter from "./src/modules/authAdmin/authAdmin.route.js";
 import userRouter from "./src/modules/user/user.route.js";
 import cookieParser from "cookie-parser";
 
@@ -16,6 +17,7 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/authAdmin", authAdminRouter);
 app.use("/api/v1/users", userRouter);
 
 app.get("/health", (req, res) => {

@@ -20,7 +20,11 @@ const authRouter = Router();
 
 authRouter.post("/register-user", validate(registerSchema), registerUser);
 authRouter.post("/login-user", validate(loginSchema), loginUser);
-authRouter.post("/logout-user", isLoggedIn, logoutUser);
+authRouter.post(
+  "/logout-user",
+  isLoggedIn("buyer", "store-admin", "factory-admin"),
+  logoutUser
+);
 authRouter.get("/verify-mail/:token", verifyUserMail);
 authRouter.get("/get-access-token", getAccessToken);
 authRouter.post("/forgot-password-mail", forgotPasswordMail);
