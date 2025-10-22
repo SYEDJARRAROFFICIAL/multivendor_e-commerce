@@ -28,6 +28,9 @@ const registerSchema = z.object({
   phoneNumber: z
     .string()
     .regex(/^(\+92|0)?3[0-9]{9}$/, "Invalid Pakistani phone number format"),
+  adminAddress: z
+    .string({ required_error: "Address is required" })
+    .min(10, "Address must be at least 10 characters long"),
 });
 
 const loginSchema = z.object({

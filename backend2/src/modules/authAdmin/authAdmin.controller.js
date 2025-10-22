@@ -12,9 +12,14 @@ import {
   storeLoginCookies,
 } from "../../shared/helpers/cookies.helper.js";
 import dotenv from "dotenv";
+import S3UploadHelper from "../../shared/helpers/s3Upload.js";
 dotenv.config();
 
 const registerAdmin = asyncHandler(async (req, res) => {
+  console.log("=== REGISTER ADMIN DEBUG ===");
+  console.log("Request body:", req.body);
+  console.log("Request file:", req.file);
+  console.log("=========================");
   const {
     adminName,
     adminEmail,
@@ -28,8 +33,20 @@ const registerAdmin = asyncHandler(async (req, res) => {
   if (existingAdmin) {
     throw new ApiError(400, "Admin already exists with this email");
   }
+  let uploadResult = null;
+
+  // Handle file upload if exists
+  if (req.file) {
+    try {
+      uploadResult = await S3UploadHelper.uploadFile(req.file, "avatars");
+    } catch (error) {
+      console.error("Error uploading avatar:", error);
+      throw new ApiError(500, "Error uploading avatar to S3");
+    }
+  }
 
   const admin = await Admin.create({
+    avatar: uploadResult ? uploadResult.key : undefined,
     adminName,
     adminEmail,
     adminPassword,
@@ -55,13 +72,20 @@ const registerAdmin = asyncHandler(async (req, res) => {
     html: userVerificationMailBody(adminName, adminVerificationEmailLink),
   });
   const response = {
+    avatar: admin.avatar,
     adminName: admin.adminName,
     adminEmail: admin.adminEmail,
     phoneNumber: admin.phoneNumber,
     adminAddress: admin.adminAddress,
     adminRole: admin.adminRole,
   };
-
+  if (uploadResult) {
+    try {
+      response.avatarUrl = await S3UploadHelper.getSignedUrl(uploadResult.key);
+    } catch {
+      response.avatarUrl = null;
+    }
+  }
   return res
     .status(201)
     .json(new ApiResponse(201, response, "Admin created successfully"));

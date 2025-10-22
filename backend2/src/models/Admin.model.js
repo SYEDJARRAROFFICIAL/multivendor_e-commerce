@@ -4,7 +4,7 @@ import crypto from "crypto";
 import jwt from "jsonwebtoken";
 const adminSchema = new mongoose.Schema(
   {
-    profileImage: {
+    avatar: {
       type: String,
       default: "https://avatar.iran.liara.run/public/33",
     },

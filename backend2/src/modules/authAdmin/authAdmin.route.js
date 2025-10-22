@@ -15,11 +15,12 @@ import {
   resetPassword,
 } from "./authAdmin.controller.js";
 import { isLoggedIn } from "../../core/middleware/isLoggedIn.js";
-
+import { upload } from "../../core/middleware/multer.js";
 const authAdminRouter = Router();
 
 authAdminRouter.post(
   "/register-admin",
+  upload.single("avatar"),
   validate(registerSchema),
   registerAdmin
 );

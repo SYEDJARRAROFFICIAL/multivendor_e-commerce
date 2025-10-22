@@ -15,10 +15,16 @@ import {
   resetPassword,
 } from "./auth.controller.js";
 import { isLoggedIn } from "../../core/middleware/isLoggedIn.js";
+import { upload } from "../../core/middleware/multer.js";
 
 const authRouter = Router();
 
-authRouter.post("/register-user", validate(registerSchema), registerUser);
+authRouter.post(
+  "/register-user",
+  upload.single("avatar"),
+  validate(registerSchema),
+  registerUser
+);
 authRouter.post("/login-user", validate(loginSchema), loginUser);
 authRouter.post(
   "/logout-user",
