@@ -11,6 +11,7 @@ import {
   storeAccessToken,
   storeLoginCookies,
 } from "../../shared/helpers/cookies.helper.js";
+import S3UploadHelper from "../../shared/helpers/s3Upload.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -29,7 +30,20 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "User already exists with this email");
   }
 
+  let uploadResult = null;
+
+  // Handle file upload if exists
+  if (req.file) {
+    try {
+      uploadResult = await S3UploadHelper.uploadFile(req.file, "avatars");
+    } catch (error) {
+      console.error("Error uploading avatar:", error);
+      throw new ApiError(500, "Error uploading avatar to S3");
+    }
+  }
+
   const user = await User.create({
+    avatar: uploadResult ? uploadResult.key : undefined,
     userName,
     userEmail,
     userPassword,
@@ -55,12 +69,20 @@ const registerUser = asyncHandler(async (req, res) => {
     html: userVerificationMailBody(userName, userVerificationEmailLink),
   });
   const response = {
+    avatar: user.avatar,
     userName: user.userName,
     userEmail: user.userEmail,
     phoneNumber: user.phoneNumber,
     userAddress: user.userAddress,
     userRole: user.userRole,
   };
+  if (uploadResult) {
+    try {
+      response.avatarUrl = await S3UploadHelper.getSignedUrl(uploadResult.key);
+    } catch {
+      response.avatarUrl = null;
+    }
+  }
 
   return res
     .status(201)

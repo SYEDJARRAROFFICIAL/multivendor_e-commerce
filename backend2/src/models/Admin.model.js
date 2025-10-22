@@ -2,18 +2,18 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
-const userSchema = new mongoose.Schema(
+const adminSchema = new mongoose.Schema(
   {
     avatar: {
       type: String,
       default: "https://avatar.iran.liara.run/public/33",
     },
-    userName: {
+    adminName: {
       type: String,
       required: true,
       trim: true,
     },
-    userEmail: {
+    adminEmail: {
       type: String,
       required: true,
       unique: true,
@@ -21,43 +21,49 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       index: true,
     },
-    userPassword: {
+    adminPassword: {
       type: String,
       required: true,
     },
-    userAddress: {
+    adminAddress: {
       type: String,
       default: null,
       trim: true,
     },
-    userIsVerified: {
+    adminIsVerified: {
       type: Boolean,
       default: false,
     },
-    userPasswordResetToken: {
+    adminPasswordResetToken: {
       type: String,
       default: null,
     },
-    userPasswordExpirationDate: {
+    adminPasswordExpirationDate: {
       type: Date,
       default: null,
     },
-    userVerificationToken: {
+    adminVerificationToken: {
       type: String,
       default: null,
     },
-    userVerificationTokenExpiry: {
+    adminVerificationTokenExpiry: {
       type: Date,
       default: null,
     },
-    userRefreshToken: {
+    adminRefreshToken: {
       type: String,
       default: null,
     },
-    userRole: {
+    adminRole: {
       type: String,
-      enum: ["buyer", "store-admin", "factory-admin"],
-      default: "buyer",
+      enum: [
+        "superAdmin",
+        "analystAdmin",
+        "factoryAdmin",
+        "storeAdmin",
+        "buyerAdmin",
+      ],
+      default: "superAdmin",
     },
     phoneNumber: {
       type: String,
@@ -73,32 +79,32 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-userSchema.pre("save", function (next) {
-  if (this.isModified("userPassword")) {
-    this.userPassword = bcrypt.hashSync(this.userPassword, 10);
+adminSchema.pre("save", function (next) {
+  if (this.isModified("adminPassword")) {
+    this.adminPassword = bcrypt.hashSync(this.adminPassword, 10);
   }
   next();
 });
 
-userSchema.methods.isPasswordCorrect = async function (password) {
-  return await bcrypt.compare(password, this.userPassword);
+adminSchema.methods.isPasswordCorrect = async function (password) {
+  return await bcrypt.compare(password, this.adminPassword);
 };
 
-userSchema.methods.generateAccessToken = function () {
+adminSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
       _id: this._id,
-      userEmail: this.userEmail,
-      userName: this.userName,
+      adminEmail: this.adminEmail,
+      adminName: this.adminName,
       phoneNumber: this.phoneNumber,
-      userRole: this.userRole,
+      adminRole: this.adminRole,
     },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
   );
 };
 
-userSchema.methods.generateRefreshToken = function () {
+adminSchema.methods.generateRefreshToken = function () {
   return jwt.sign(
     {
       _id: this._id,
@@ -108,7 +114,7 @@ userSchema.methods.generateRefreshToken = function () {
   );
 };
 
-userSchema.methods.generateTemporaryToken = function () {
+adminSchema.methods.generateTemporaryToken = function () {
   const unHashedToken = crypto.randomBytes(20).toString("hex");
 
   const hashedToken = crypto
@@ -120,6 +126,6 @@ userSchema.methods.generateTemporaryToken = function () {
   return { unHashedToken, hashedToken, tokenExpiry };
 };
 
-const User = mongoose.model("User", userSchema);
+const Admin = mongoose.model("Admin", adminSchema);
 
-export default User;
+export default Admin;
