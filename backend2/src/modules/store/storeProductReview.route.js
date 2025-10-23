@@ -12,10 +12,20 @@ import { isLoggedIn } from "../../core/middleware/isLoggedIn.js";
 
 const storeProductReviewRouter = Router();
 
-storeProductReviewRouter.post("/",isLoggedIn, validate(storeProductReviewValidation), createReview);
+storeProductReviewRouter.post(
+  "/",
+  isLoggedIn(),
+  validate(storeProductReviewValidation),
+  createReview
+);
 storeProductReviewRouter.get("/", getAllReviews);
 storeProductReviewRouter.get("/:id", getReviewById);
-storeProductReviewRouter.put("/:id",isLoggedIn, validate(storeProductReviewValidation.partial()), updateReview);
+storeProductReviewRouter.put(
+  "/:id",
+  isLoggedIn,
+  validate(storeProductReviewValidation.partial()),
+  updateReview
+);
 storeProductReviewRouter.delete("/:id", deleteReview);
 
 export default storeProductReviewRouter;

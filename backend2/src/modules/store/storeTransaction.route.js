@@ -12,10 +12,20 @@ import { isLoggedIn } from "../../core/middleware/isLoggedIn.js";
 
 const storeTransactionRouter = Router();
 
-storeTransactionRouter.post("/", isLoggedIn, validate(storeTransactionSchema), createTransaction);
-storeTransactionRouter.get("/", isLoggedIn, getAllTransactions);
-storeTransactionRouter.get("/:id", isLoggedIn, getTransactionById);
-storeTransactionRouter.put("/:id", isLoggedIn, validate(storeTransactionSchema.partial()), updateTransaction);
-storeTransactionRouter.delete("/:id", isLoggedIn, deleteTransaction);
+storeTransactionRouter.post(
+  "/",
+  isLoggedIn(),
+  validate(storeTransactionSchema),
+  createTransaction
+);
+storeTransactionRouter.get("/", isLoggedIn(), getAllTransactions);
+storeTransactionRouter.get("/:id", isLoggedIn(), getTransactionById);
+storeTransactionRouter.put(
+  "/:id",
+  isLoggedIn(),
+  validate(storeTransactionSchema.partial()),
+  updateTransaction
+);
+storeTransactionRouter.delete("/:id", isLoggedIn(), deleteTransaction);
 
 export default storeTransactionRouter;

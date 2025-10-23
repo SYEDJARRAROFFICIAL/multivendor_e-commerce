@@ -12,10 +12,20 @@ import { isLoggedIn } from "../../core/middleware/isLoggedIn.js";
 
 const storeProductFeedbackRouter = Router();
 
-storeProductFeedbackRouter.post("/", isLoggedIn, validate(storeProductFeedbackValidation), createProductFeedback);
-storeProductFeedbackRouter.get("/", isLoggedIn, getAllProductFeedback);
-storeProductFeedbackRouter.get("/:id", isLoggedIn, getProductFeedbackById);
-storeProductFeedbackRouter.put("/:id", isLoggedIn, validate(storeProductFeedbackValidation.partial()), updateProductFeedback);
-storeProductFeedbackRouter.delete("/:id", isLoggedIn,deleteProductFeedback);
+storeProductFeedbackRouter.post(
+  "/",
+  isLoggedIn(),
+  validate(storeProductFeedbackValidation),
+  createProductFeedback
+);
+storeProductFeedbackRouter.get("/", isLoggedIn(), getAllProductFeedback);
+storeProductFeedbackRouter.get("/:id", isLoggedIn(), getProductFeedbackById);
+storeProductFeedbackRouter.put(
+  "/:id",
+  isLoggedIn(),
+  validate(storeProductFeedbackValidation.partial()),
+  updateProductFeedback
+);
+storeProductFeedbackRouter.delete("/:id", isLoggedIn(), deleteProductFeedback);
 
 export default storeProductFeedbackRouter;

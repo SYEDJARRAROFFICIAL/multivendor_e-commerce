@@ -12,10 +12,19 @@ import {
 
 const storeFeedbackRouter = Router();
 
-storeFeedbackRouter.post("/",isLoggedIn,validate(storeFeedbackValidation),createFeedback);
+storeFeedbackRouter.post(
+  "/",
+  isLoggedIn(),
+  validate(storeFeedbackValidation),
+  createFeedback
+);
 storeFeedbackRouter.get("/", getAllFeedbacks);
 storeFeedbackRouter.get("/:id", getFeedbackById);
-storeFeedbackRouter.put("/:id", validate(storeFeedbackValidation.partial()), updateFeedback);
+storeFeedbackRouter.put(
+  "/:id",
+  validate(storeFeedbackValidation.partial()),
+  updateFeedback
+);
 storeFeedbackRouter.delete("/:id", deleteFeedback);
 
 export default storeFeedbackRouter;

@@ -7,14 +7,11 @@ export const createStoreSchema = z.object({
     .min(3, "Store name must be at least 3 characters")
     .max(100, "Store name cannot exceed 100 characters"),
 
-  storeLogo: z
-    .string()
-    .url("Store logo must be a valid URL")
-    .optional(),
+  storeLogo: z.string().optional(),
 
   storeCoverImage: z
     .string()
-    .url("Store cover image must be a valid URL")
+    // .url("Store cover image must be a valid URL")
     .optional(),
 
   storeDescription: z
@@ -33,10 +30,7 @@ export const createStoreSchema = z.object({
     .regex(/^\d{13}$/, "ID card number must be exactly 13 digits")
     .optional(),
 
-  idCardImage: z
-    .string()
-    .url("ID card image must be a valid URL")
-    .optional(),
+  idCardImage: z.string().url("ID card image must be a valid URL").optional(),
 });
 
 // 🧾 Update Store Validation
@@ -47,15 +41,9 @@ export const updateStoreSchema = z.object({
     .max(100, "Store name cannot exceed 100 characters")
     .optional(),
 
-  storeLogo: z
-    .string()
-    .url("Store logo must be a valid URL")
-    .optional(),
+  storeLogo: z.string().optional(),
 
-  storeCoverImage: z
-    .string()
-    .url("Store cover image must be a valid URL")
-    .optional(),
+  storeCoverImage: z.string().optional(),
 
   storeDescription: z
     .string()
@@ -73,10 +61,7 @@ export const updateStoreSchema = z.object({
     .regex(/^\d{13}$/, "ID card number must be exactly 13 digits")
     .optional(),
 
-  idCardImage: z
-    .string()
-    .url("ID card image must be a valid URL")
-    .optional(),
+  idCardImage: z.string().url("ID card image must be a valid URL").optional(),
 });
 // 🛒 Store Product Category Validation
 export const storeProductCategorySchema = z.object({
@@ -88,10 +73,7 @@ export const storeProductCategorySchema = z.object({
     .min(2, "Category name must be at least 2 characters long")
     .max(100, "Category name cannot exceed 100 characters"),
 
-  categoryLogo: z
-    .string()
-    .url("Category logo must be a valid URL")
-    .optional(),
+  categoryLogo: z.string().url("Category logo must be a valid URL").optional(),
 });
 
 // 🛠️ Update Store Product Category Validation
@@ -103,10 +85,7 @@ export const updateStoreProductCategorySchema = z.object({
     .max(100, "Category name cannot exceed 100 characters")
     .optional(),
 
-  categoryLogo: z
-    .string()
-    .url("Category logo must be a valid URL")
-    .optional(),
+  categoryLogo: z.string().url("Category logo must be a valid URL").optional(),
 });
 
 // 🛍️ Store Product Validation
@@ -125,10 +104,7 @@ export const storeProductSchema = z.object({
     .max(1000, "Description cannot exceed 1000 characters")
     .optional(),
 
-  productCategoryId: z
-    .string()
-    .trim()
-    .optional(), // Will hold ObjectId as string reference
+  productCategoryId: z.string().trim().optional(), // Will hold ObjectId as string reference
 
   price: z
     .number({
@@ -147,17 +123,11 @@ export const storeProductSchema = z.object({
     .default(0)
     .optional(),
 
-  productImage: z
-    .string()
-    .url("Product image must be a valid URL")
-    .optional(),
+  productImage: z.string().url("Product image must be a valid URL").optional(),
 
   isActive: z.boolean().optional().default(true),
 
-  productStatus: z
-    .enum(["live", "pending"])
-    .optional()
-    .default("pending"),
+  productStatus: z.enum(["live", "pending"]).optional().default("pending"),
 });
 
 // 🛠️ Update Store Product Validation
@@ -197,10 +167,7 @@ export const updateStoreProductSchema = z.object({
     .min(0, "Stock cannot be negative")
     .optional(),
 
-  productImage: z
-    .string()
-    .url("Product image must be a valid URL")
-    .optional(),
+  productImage: z.string().url("Product image must be a valid URL").optional(),
 
   isActive: z.boolean().optional(),
 
@@ -219,10 +186,11 @@ export const storeProductReviewValidation = z.object({
 
 // ------------------ Store Feedback Validation ------------------
 export const storeFeedbackValidation = z.object({
-  storeFeedback: z.string().min(5, "Feedback must be at least 5 characters long"),
+  storeFeedback: z
+    .string()
+    .min(5, "Feedback must be at least 5 characters long"),
   storeId: z.string().min(1, "Store ID is required"),
 });
-
 
 // ------------------ Store Product Feedback Validation ------------------
 // Only user-provided fields
@@ -239,7 +207,9 @@ export const storeTransactionSchema = z.object({
     .string()
     .min(12, "Card number must be at least 12 digits")
     .max(20, "Card number cannot exceed 20 digits"),
-  cardHolderName: z.string().max(100, "Card holder name cannot exceed 100 characters"),
+  cardHolderName: z
+    .string()
+    .max(100, "Card holder name cannot exceed 100 characters"),
   cardExpiryDate: z.string().optional(),
   cvcNumber: z.string().optional(),
   amount: z.number().min(0, "Amount must be greater than 0").optional(), // auto-calculated
@@ -255,10 +225,14 @@ const orderProductValidation = z.object({
 });
 
 export const storeOrderValidation = z.object({
-  products: z.array(orderProductValidation).min(1, "At least one product is required"),
+  products: z
+    .array(orderProductValidation)
+    .min(1, "At least one product is required"),
   shippingAddress: z.string().optional(),
   paymentStatus: z.enum(["pending", "paid", "failed"]).optional(),
-  orderStatus: z.enum(["pending", "processing", "shipped", "delivered", "cancelled"]).optional(),
+  orderStatus: z
+    .enum(["pending", "processing", "shipped", "delivered", "cancelled"])
+    .optional(),
   trackingId: z.string().optional(),
   totalAmount: z.number().min(0, "Total amount must be greater than 0"),
   orderNumber: z.string().min(1, "Order number is required"),

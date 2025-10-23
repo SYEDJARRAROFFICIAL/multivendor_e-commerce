@@ -1,9 +1,20 @@
 import Router from "express";
-import { getAllUsers } from "./user.controller.js";
+import {
+  updateUserAvatar,
+  deleteUserAvatar,
+  getUserProfile,
+} from "./user.controller.js";
 import { isLoggedIn } from "../../core/middleware/isLoggedIn.js";
 import { upload } from "../../core/middleware/multer.js";
 const userRouter = Router();
 
-userRouter.get("/all-users", getAllUsers);
+userRouter.patch(
+  "/update-avatar/:userId",
+  isLoggedIn(),
+  upload.single("avatar"),
+  updateUserAvatar
+);
+userRouter.delete("/delete-avatar/:userId", isLoggedIn(), deleteUserAvatar);
+userRouter.get("/profile/:userId", isLoggedIn(), getUserProfile);
 
 export default userRouter;

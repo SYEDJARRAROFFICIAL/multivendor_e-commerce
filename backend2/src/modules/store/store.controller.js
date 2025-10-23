@@ -1,5 +1,6 @@
 import Store from "../../models/Store.model.js";
 import User from "../../models/User.model.js";
+import Category from "../../models/Category.model.js"; // Add this import
 import { StoreFeedBack } from "../../models/StoreFeedback.model.js";
 import { StoreOrders } from "../../models/StoreOrder.model.js";
 import StoreProduct from "../../models/StoreProduct.model.js";
@@ -50,8 +51,9 @@ export const createStore = asyncHandler(async (req, res) => {
 
 // ---------- GET STORE DETAILS ----------
 export const getStoreDetails = asyncHandler(async (req, res) => {
+  console.log("Fetching store details for user:", req.user);
   const userId = req.user._id;
-
+  console.log("User ID:", userId);
   const store = await Store.findOne({ userID: userId }).populate(
     "storeCategoryId",
     "categoryName categoryType"
@@ -108,7 +110,7 @@ export const deleteStore = asyncHandler(async (req, res) => {
     StoreProductFeedback.deleteMany({ storeId }),
     StoreProductReview.deleteMany({ storeId }),
     StoreProductCategory.deleteMany({ storeId }),
-    StoreCategory.deleteMany({ storeId }),
+    // StoreCategory.deleteMany({ storeId }),
   ]);
 
   await Store.deleteOne({ _id: storeId });
@@ -116,7 +118,11 @@ export const deleteStore = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(
-      new ApiResponse(200, null, "Store and all associated data deleted successfully")
+      new ApiResponse(
+        200,
+        null,
+        "Store and all associated data deleted successfully"
+      )
     );
 });
 
@@ -126,7 +132,8 @@ export const getAllStores = asyncHandler(async (req, res) => {
     .populate("storeCategoryId", "categoryName categoryType")
     .populate("userID", "fullName email");
 
-  if (!stores || stores.length === 0) throw new ApiError(404, "No stores found");
+  if (!stores || stores.length === 0)
+    throw new ApiError(404, "No stores found");
 
   return res
     .status(200)
