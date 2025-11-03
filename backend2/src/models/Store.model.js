@@ -27,7 +27,7 @@ const storeSchema = new mongoose.Schema(
     },
     storeCategoryId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Categories",
+      ref: "Category",
       default: null,
       required: false,
     },

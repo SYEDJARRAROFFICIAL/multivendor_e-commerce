@@ -140,12 +140,23 @@ const loginUser = asyncHandler(async (req, res) => {
       phoneNumber: user.phoneNumber,
       userAddress: user.userAddress,
       userRole: user.userRole,
+      avatar: user.avatar, // Add avatar field
     },
     tokens: {
       accessToken,
       refreshToken,
     },
   };
+
+  // Generate signed URL for avatar if exists
+  if (user.avatar) {
+    try {
+      response.user.avatarUrl = await S3UploadHelper.getSignedUrl(user.avatar);
+    } catch (error) {
+      console.error("Error generating avatar signed URL:", error);
+      response.user.avatarUrl = null;
+    }
+  }
   return res
     .status(200)
     .json(new ApiResponse(200, response, "User logged in successfully"));

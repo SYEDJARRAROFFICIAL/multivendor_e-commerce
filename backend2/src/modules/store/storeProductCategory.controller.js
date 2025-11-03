@@ -5,10 +5,13 @@ import Store from "../../models/Store.model.js";
 export const createStoreProductCategory = async (req, res) => {
   try {
     const userId = req.user._id;
-    const { categoryName, categoryLogo,cat } = req.body;
+    const { categoryName, categoryLogo } = req.body;
 
     const store = await Store.findOne({ userID: userId });
-    if (!store) return res.status(404).json({ success: false, message: "Store not found" });
+    if (!store)
+      return res
+        .status(404)
+        .json({ success: false, message: "Store not found" });
 
     const category = await StoreProductCategory.create({
       categoryName,
@@ -36,7 +39,10 @@ export const getAllStoreProductCategories = async (req, res) => {
     const userId = req.user._id;
 
     const store = await Store.findOne({ userID: userId });
-    if (!store) return res.status(404).json({ success: false, message: "Store not found" });
+    if (!store)
+      return res
+        .status(404)
+        .json({ success: false, message: "Store not found" });
 
     const categories = await StoreProductCategory.find({ storeId: store._id });
 
@@ -61,7 +67,9 @@ export const getStoreProductCategoryById = async (req, res) => {
     const category = await StoreProductCategory.findById(id);
 
     if (!category)
-      return res.status(404).json({ success: false, message: "Category not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Category not found" });
 
     res.status(200).json({
       success: true,
@@ -90,7 +98,9 @@ export const updateStoreProductCategory = async (req, res) => {
     );
 
     if (!updatedCategory)
-      return res.status(404).json({ success: false, message: "Category not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Category not found" });
 
     res.status(200).json({
       success: true,
@@ -114,7 +124,9 @@ export const deleteStoreProductCategory = async (req, res) => {
     const deleted = await StoreProductCategory.findByIdAndDelete(id);
 
     if (!deleted)
-      return res.status(404).json({ success: false, message: "Category not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Category not found" });
 
     res.status(200).json({
       success: true,

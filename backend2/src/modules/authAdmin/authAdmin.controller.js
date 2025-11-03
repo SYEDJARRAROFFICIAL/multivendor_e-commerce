@@ -142,12 +142,24 @@ const loginAdmin = asyncHandler(async (req, res) => {
       phoneNumber: admin.phoneNumber,
       adminAddress: admin.adminAddress,
       adminRole: admin.adminRole,
+      avatar: admin.avatar, // Add avatar field
     },
     tokens: {
       accessToken,
       refreshToken,
     },
   };
+  // Generate signed URL for avatar if exists
+  if (admin.avatar) {
+    try {
+      response.admin.avatarUrl = await S3UploadHelper.getSignedUrl(
+        admin.avatar
+      );
+    } catch (error) {
+      console.error("Error generating avatar signed URL:", error);
+      response.admin.avatarUrl = null;
+    }
+  }
   return res
     .status(200)
     .json(

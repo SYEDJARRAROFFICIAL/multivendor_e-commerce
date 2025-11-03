@@ -8,24 +8,40 @@ import {
 } from "./storeProductCategory.controller.js";
 import { isLoggedIn } from "../../core/middleware/isLoggedIn.js";
 import { validate } from "../../core/middleware/validate.js";
-import { storeProductCategorySchema,updateStoreProductCategorySchema } from "../../shared/validators/store.validation.js";
-import { authorizeRoles } from "../../core/middleware/authorizeRoles.js";
+import {
+  storeProductCategorySchema,
+  updateStoreProductCategorySchema,
+} from "../../shared/validators/store.validation.js";
 
 const router = express.Router();
 
 // CREATE category (only store owner)
-router.post("/create", isLoggedIn,authorizeRoles("store-admin"), validate(storeProductCategorySchema), createStoreProductCategory);
+router.post(
+  "/create",
+  isLoggedIn("store-admin"),
+  validate(storeProductCategorySchema),
+  createStoreProductCategory
+);
 
 // GET all categories (store owner only)
-router.get("/getall", isLoggedIn, getAllStoreProductCategories);
+router.get("/getall", isLoggedIn("store-admin"), getAllStoreProductCategories);
 
 // GET single category by ID
-router.get("/get/:id", isLoggedIn, getStoreProductCategoryById);
+router.get("/get/:id", isLoggedIn("store-admin"), getStoreProductCategoryById);
 
 // UPDATE category by ID
-router.put("/update/:id", isLoggedIn,validate(updateStoreProductCategorySchema), updateStoreProductCategory);
+router.put(
+  "/update/:id",
+  isLoggedIn("store-admin"),
+  validate(updateStoreProductCategorySchema),
+  updateStoreProductCategory
+);
 
 // DELETE category by ID
-router.delete("/delete/:id", isLoggedIn, deleteStoreProductCategory);
+router.delete(
+  "/delete/:id",
+  isLoggedIn("store-admin"),
+  deleteStoreProductCategory
+);
 
 export default router;

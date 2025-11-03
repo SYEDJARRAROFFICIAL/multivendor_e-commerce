@@ -2,6 +2,8 @@
 import express from "express";
 import { isLoggedIn } from "../../core/middleware/isLoggedIn.js";
 import {
+  getAllUsers,
+  getAllAdmins,
   verifyStore,
   rejectStore,
   suspendStore,
@@ -12,7 +14,21 @@ import {
 
 const adminActionRouter = express.Router();
 
-adminActionRouter.use(isLoggedIn); // all routes protected
+// adminActionRouter.use(isLoggedIn); // all routes protected
+
+// get all users
+adminActionRouter.get(
+  "/users",
+  isLoggedIn("superAdmin,analystAdmin,buyerAdmin"),
+  getAllUsers
+);
+
+// get all admins
+adminActionRouter.get(
+  "/admins",
+  isLoggedIn("superAdmin,analystAdmin"),
+  getAllAdmins
+);
 
 // Store actions
 adminActionRouter.post(
