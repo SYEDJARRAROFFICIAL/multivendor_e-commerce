@@ -18,6 +18,16 @@ import storeProductFeedbackRouter from "./src/modules/store/storeProductFeedback
 import storeTransactionRouter from "./src/modules/store/storeTransaction.route.js";
 import storeOrderRouter from "./src/modules/store/storeOrder.route.js";
 
+// Factory Router
+import factoryRouter from "./src/modules/factory/factory.route.js";
+import factoryProductCategoryRouter from "./src/modules/factory/factoryProductCategory.route.js";
+import factoryProductRouter from "./src/modules/factory/factoryProduct.route.js";
+import factoryFeedbackRouter from "./src/modules/factory/factoryFeedback.route.js";
+import factoryProductFeedbackRoutes from "./src/modules/factory/factoryProductFeedback.route.js";
+import FactoryProductReviewRoutes from "./src/modules/factory/factoryProductReview.route.js";
+import factoryOrderRouter from "./src/modules/factory/factoryOrder.route.js";
+import factoryTransactionRouter from "./src/modules/factory/factoryTransaction.route.js";
+
 const app = express();
 
 dotenv.config();
@@ -41,6 +51,16 @@ app.use("/api/v1/store-feedbacks", storeFeedbackRouter);
 app.use("/api/v1/store-product-feedbacks", storeProductFeedbackRouter);
 app.use("/api/v1/store-transactions", storeTransactionRouter);
 app.use("/api/v1/store-orders", storeOrderRouter);
+
+// Factory Routes
+app.use("/api/v1/factory", factoryRouter);
+app.use("/api/v1/factory/products", factoryProductRouter);
+app.use("/api/v1/factory-product-category", factoryProductCategoryRouter);
+app.use("/api/v1/factory-feedback", factoryFeedbackRouter);
+app.use("/api/factory-product-feedbacks", factoryProductFeedbackRoutes);
+app.use("/api/v1/factory-product-reviews", FactoryProductReviewRoutes);
+app.use("/api/v1/factory-orders", factoryOrderRouter);
+app.use("/api/factory/transactions", factoryTransactionRouter);
 
 app.get("/health", (req, res) => {
   res.status(200).json({
