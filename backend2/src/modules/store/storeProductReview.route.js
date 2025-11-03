@@ -22,10 +22,10 @@ storeProductReviewRouter.get("/", getAllReviews);
 storeProductReviewRouter.get("/:id", getReviewById);
 storeProductReviewRouter.put(
   "/:id",
-  isLoggedIn,
+  isLoggedIn(),
   validate(storeProductReviewValidation.partial()),
   updateReview
 );
-storeProductReviewRouter.delete("/:id", deleteReview);
+storeProductReviewRouter.delete("/:id", isLoggedIn(), deleteReview);
 
 export default storeProductReviewRouter;

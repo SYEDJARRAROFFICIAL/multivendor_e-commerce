@@ -73,7 +73,7 @@ export const storeProductCategorySchema = z.object({
     .min(2, "Category name must be at least 2 characters long")
     .max(100, "Category name cannot exceed 100 characters"),
 
-  categoryLogo: z.string().url("Category logo must be a valid URL").optional(),
+  categoryLogo: z.string().optional(),
 });
 
 // 🛠️ Update Store Product Category Validation
@@ -85,7 +85,7 @@ export const updateStoreProductCategorySchema = z.object({
     .max(100, "Category name cannot exceed 100 characters")
     .optional(),
 
-  categoryLogo: z.string().url("Category logo must be a valid URL").optional(),
+  categoryLogo: z.string().optional(),
 });
 
 // 🛍️ Store Product Validation
@@ -123,7 +123,7 @@ export const storeProductSchema = z.object({
     .default(0)
     .optional(),
 
-  productImage: z.string().url("Product image must be a valid URL").optional(),
+  productImage: z.string().optional(),
 
   isActive: z.boolean().optional().default(true),
 
@@ -167,7 +167,7 @@ export const updateStoreProductSchema = z.object({
     .min(0, "Stock cannot be negative")
     .optional(),
 
-  productImage: z.string().url("Product image must be a valid URL").optional(),
+  productImage: z.string().optional(),
 
   isActive: z.boolean().optional(),
 

@@ -5,6 +5,7 @@ import { storeFeedbackValidation } from "../../shared/validators/store.validatio
 import {
   createFeedback,
   getAllFeedbacks,
+  getFeedbacksByStoreId,
   getFeedbackById,
   updateFeedback,
   deleteFeedback,
@@ -18,13 +19,23 @@ storeFeedbackRouter.post(
   validate(storeFeedbackValidation),
   createFeedback
 );
-storeFeedbackRouter.get("/", getAllFeedbacks);
+storeFeedbackRouter.get(
+  "/",
+  isLoggedIn("store-admin", "superAdmin", "analystAdmin", "storeAdmin"),
+  getAllFeedbacks
+);
+// Add new route for getting feedbacks by store ID
+storeFeedbackRouter.get(
+  "/store/:storeId", // New route: /store-feedback/store/[storeId]
+  getFeedbacksByStoreId
+);
 storeFeedbackRouter.get("/:id", getFeedbackById);
 storeFeedbackRouter.put(
   "/:id",
+  isLoggedIn(),
   validate(storeFeedbackValidation.partial()),
   updateFeedback
 );
-storeFeedbackRouter.delete("/:id", deleteFeedback);
+storeFeedbackRouter.delete("/:id", isLoggedIn(), deleteFeedback);
 
 export default storeFeedbackRouter;
