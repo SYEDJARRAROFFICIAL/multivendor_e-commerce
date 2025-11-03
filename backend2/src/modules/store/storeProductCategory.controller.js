@@ -1,5 +1,5 @@
-import { StoreProductCategory } from "../../models/StoreProductCategory.model.js";
-import Store from "../../models/Store.model.js";
+import { StoreProductCategory } from "../../models/store/StoreProductCategory.model.js";
+import Store from "../../models/store/Store.model.js";
 
 // ✅ CREATE CATEGORY (Only by Store Owner)
 export const createStoreProductCategory = async (req, res) => {

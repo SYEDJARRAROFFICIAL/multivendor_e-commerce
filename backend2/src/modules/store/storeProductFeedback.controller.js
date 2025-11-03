@@ -1,9 +1,9 @@
 import { asyncHandler } from "../../core/utils/async-handler.js";
 import { ApiError } from "../../core/utils/api-error.js";
 import { ApiResponse } from "../../core/utils/api-response.js";
-import { StoreProductFeedback } from "../../models/StoreProductFeedback.model.js";
+import { StoreProductFeedback } from "../../models/store/StoreProductFeedback.model.js";
 import { storeProductFeedbackValidation } from "../../shared/validators/store.validation.js";
-import StoreProduct  from "../../models/StoreProduct.model.js";
+import StoreProduct from "../../models/store/StoreProduct.model.js";
 
 // CREATE
 export const createProductFeedback = asyncHandler(async (req, res) => {
@@ -27,32 +27,62 @@ export const createProductFeedback = asyncHandler(async (req, res) => {
 
   return res
     .status(201)
-    .json(new ApiResponse(201, feedback, "Product feedback created successfully"));
+    .json(
+      new ApiResponse(201, feedback, "Product feedback created successfully")
+    );
 });
 // READ ALL
 export const getAllProductFeedback = asyncHandler(async (req, res) => {
   const feedbacks = await StoreProductFeedback.find();
-  return res.status(200).json(new ApiResponse(200, feedbacks, "All product feedbacks fetched successfully"));
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        feedbacks,
+        "All product feedbacks fetched successfully"
+      )
+    );
 });
 
 // READ SINGLE
 export const getProductFeedbackById = asyncHandler(async (req, res) => {
   const feedback = await StoreProductFeedback.findById(req.params.id);
   if (!feedback) throw new ApiError(404, "Product feedback not found");
-  return res.status(200).json(new ApiResponse(200, feedback, "Product feedback fetched successfully"));
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, feedback, "Product feedback fetched successfully")
+    );
 });
 
 // UPDATE
 export const updateProductFeedback = asyncHandler(async (req, res) => {
   const data = storeProductFeedbackValidation.partial().parse(req.body);
-  const updatedFeedback = await StoreProductFeedback.findByIdAndUpdate(req.params.id, data, { new: true });
+  const updatedFeedback = await StoreProductFeedback.findByIdAndUpdate(
+    req.params.id,
+    data,
+    { new: true }
+  );
   if (!updatedFeedback) throw new ApiError(404, "Product feedback not found");
-  return res.status(200).json(new ApiResponse(200, updatedFeedback, "Product feedback updated successfully"));
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        updatedFeedback,
+        "Product feedback updated successfully"
+      )
+    );
 });
 
 // DELETE
 export const deleteProductFeedback = asyncHandler(async (req, res) => {
-  const deletedFeedback = await StoreProductFeedback.findByIdAndDelete(req.params.id);
+  const deletedFeedback = await StoreProductFeedback.findByIdAndDelete(
+    req.params.id
+  );
   if (!deletedFeedback) throw new ApiError(404, "Product feedback not found");
-  return res.status(200).json(new ApiResponse(200, {}, "Product feedback deleted successfully"));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Product feedback deleted successfully"));
 });

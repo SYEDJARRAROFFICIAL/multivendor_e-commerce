@@ -1,5 +1,5 @@
 import { asyncHandler } from "../../core/utils/async-handler.js";
-import Admin from "../../models/Admin.model.js";
+import Admin from "../../models/admin/Admin.model.js";
 import { ApiError } from "../../core/utils/api-error.js";
 import { ApiResponse } from "../../core/utils/api-response.js";
 import {

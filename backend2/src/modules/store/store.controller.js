@@ -1,13 +1,13 @@
-import Store from "../../models/Store.model.js";
+import Store from "../../models/store/Store.model.js";
 import User from "../../models/User.model.js";
 import Category from "../../models/Category.model.js"; // Add this import
-import { StoreFeedBack } from "../../models/StoreFeedback.model.js";
-import { StoreOrders } from "../../models/StoreOrder.model.js";
-import StoreProduct from "../../models/StoreProduct.model.js";
-import { StoreTransaction } from "../../models/StoreTransaction.model.js";
-import { StoreProductFeedback } from "../../models/StoreProductFeedback.model.js";
-import { StoreProductReview } from "../../models/StoreProductReview.model.js";
-import { StoreProductCategory } from "../../models/StoreProductCategory.model.js";
+import { StoreFeedBack } from "../../models/store/StoreFeedback.model.js";
+import { StoreOrders } from "../../models/store/StoreOrder.model.js";
+import StoreProduct from "../../models/store/StoreProduct.model.js";
+import { StoreTransaction } from "../../models/store/StoreTransaction.model.js";
+import { StoreProductFeedback } from "../../models/store/StoreProductFeedback.model.js";
+import { StoreProductReview } from "../../models/store/StoreProductReview.model.js";
+import { StoreProductCategory } from "../../models/store/StoreProductCategory.model.js";
 
 import { ApiError } from "../../core/utils/api-error.js";
 import { ApiResponse } from "../../core/utils/api-response.js";

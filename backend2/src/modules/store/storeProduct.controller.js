@@ -1,5 +1,5 @@
-import Store from "../../models/Store.model.js";
-import StoreProduct from "../../models/StoreProduct.model.js";
+import Store from "../../models/store/Store.model.js";
+import StoreProduct from "../../models/store/StoreProduct.model.js";
 
 /* =============================
    ✅ CREATE PRODUCT
@@ -40,7 +40,11 @@ export const createProduct = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ success: false, message: "Internal Server Error", error: error.message });
+      .json({
+        success: false,
+        message: "Internal Server Error",
+        error: error.message,
+      });
   }
 };
 
@@ -52,15 +56,25 @@ export const getAllProducts = async (req, res) => {
     const userId = req.user._id;
     const store = await Store.findOne({ userID: userId });
     if (!store)
-      return res.status(404).json({ success: false, message: "Store not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Store not found" });
 
     const products = await StoreProduct.find({ storeId: store._id })
       .populate("productCategoryId", "categoryName")
       .sort({ createdAt: -1 });
 
-    res.status(200).json({ success: true, count: products.length, data: products });
+    res
+      .status(200)
+      .json({ success: true, count: products.length, data: products });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Internal Server Error", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Internal Server Error",
+        error: error.message,
+      });
   }
 };
 
@@ -74,17 +88,29 @@ export const getProductById = async (req, res) => {
 
     const store = await Store.findOne({ userID: userId });
     if (!store)
-      return res.status(404).json({ success: false, message: "Store not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Store not found" });
 
-    const product = await StoreProduct.findOne({ _id: id, storeId: store._id })
-      .populate("productCategoryId", "categoryName");
+    const product = await StoreProduct.findOne({
+      _id: id,
+      storeId: store._id,
+    }).populate("productCategoryId", "categoryName");
 
     if (!product)
-      return res.status(404).json({ success: false, message: "Product not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
 
     res.status(200).json({ success: true, data: product });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Internal Server Error", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Internal Server Error",
+        error: error.message,
+      });
   }
 };
 
@@ -99,7 +125,9 @@ export const updateProduct = async (req, res) => {
 
     const store = await Store.findOne({ userID: userId });
     if (!store)
-      return res.status(404).json({ success: false, message: "Store not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Store not found" });
 
     const product = await StoreProduct.findOneAndUpdate(
       { _id: id, storeId: store._id },
@@ -108,11 +136,28 @@ export const updateProduct = async (req, res) => {
     );
 
     if (!product)
-      return res.status(404).json({ success: false, message: "Product not found or not owned by this store" });
+      return res
+        .status(404)
+        .json({
+          success: false,
+          message: "Product not found or not owned by this store",
+        });
 
-    res.status(200).json({ success: true, message: "Product updated successfully", data: product });
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Product updated successfully",
+        data: product,
+      });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Internal Server Error", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Internal Server Error",
+        error: error.message,
+      });
   }
 };
 
@@ -126,15 +171,33 @@ export const deleteProduct = async (req, res) => {
 
     const store = await Store.findOne({ userID: userId });
     if (!store)
-      return res.status(404).json({ success: false, message: "Store not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Store not found" });
 
-    const product = await StoreProduct.findOneAndDelete({ _id: id, storeId: store._id });
+    const product = await StoreProduct.findOneAndDelete({
+      _id: id,
+      storeId: store._id,
+    });
 
     if (!product)
-      return res.status(404).json({ success: false, message: "Product not found or not owned by this store" });
+      return res
+        .status(404)
+        .json({
+          success: false,
+          message: "Product not found or not owned by this store",
+        });
 
-    res.status(200).json({ success: true, message: "Product deleted successfully" });
+    res
+      .status(200)
+      .json({ success: true, message: "Product deleted successfully" });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Internal Server Error", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Internal Server Error",
+        error: error.message,
+      });
   }
 };

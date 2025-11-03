@@ -1,7 +1,7 @@
 import { asyncHandler } from "../../core/utils/async-handler.js";
 import { ApiError } from "../../core/utils/api-error.js";
 import { ApiResponse } from "../../core/utils/api-response.js";
-import { StoreFeedBack } from "../../models/StoreFeedback.model.js";
+import { StoreFeedBack } from "../../models/store/StoreFeedback.model.js";
 import { storeFeedbackValidation } from "../../shared/validators/store.validation.js";
 import mongoose from "mongoose";
 // CREATE
