@@ -1,13 +1,13 @@
-import Store from "../../models/Store.model.js";
-import StoreProduct from "../../models/StoreProduct.model.js";
+import Store from "../../models/store/Store.model.js";
+import StoreProduct from "../../models/store/StoreProduct.model.js";
 import User from "../../models/User.model.js";
 // import Factory from "../../models/Factory.model.js";
 // import FactoryProduct from "../../models/FactoryProduct.model.js";
-import AdminActions from "../../models/adminAction.model.js";
+import AdminActions from "../../models/admin/adminAction.model.js";
 import { asyncHandler } from "../../core/utils/async-handler.js";
 import { ApiResponse } from "../../core/utils/api-response.js";
 import { ApiError } from "../../core/utils/api-error.js";
-import Admin from "../../models/Admin.model.js";
+import Admin from "../../models/admin/Admin.model.js";
 
 // Helper to log admin actions
 const logAdminAction = async ({
