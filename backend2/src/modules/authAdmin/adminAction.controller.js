@@ -3,7 +3,7 @@ import StoreProduct from "../../models/store/StoreProduct.model.js";
 import User from "../../models/User.model.js";
 // import Factory from "../../models/Factory.model.js";
 // import FactoryProduct from "../../models/FactoryProduct.model.js";
-import AdminActions from "../../models/admin/adminAction.model.js";
+import AdminActions from "../../models/admin/AdminAction.model.js";
 import { asyncHandler } from "../../core/utils/async-handler.js";
 import { ApiResponse } from "../../core/utils/api-response.js";
 import { ApiError } from "../../core/utils/api-error.js";
