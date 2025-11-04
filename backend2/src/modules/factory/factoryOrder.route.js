@@ -20,6 +20,10 @@ factoryOrderRouter.post(
 
 factoryOrderRouter.get("/", getAllFactoryOrders);
 factoryOrderRouter.get("/:id", getFactoryOrderById);
-factoryOrderRouter.delete("/:id", isLoggedIn, deleteFactoryOrder);
+factoryOrderRouter.delete(
+  "/:id",
+  isLoggedIn("store-admin", "factory-admin", "superAdmin"),
+  deleteFactoryOrder
+);
 
 export default factoryOrderRouter;

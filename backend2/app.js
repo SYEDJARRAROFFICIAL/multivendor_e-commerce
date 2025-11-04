@@ -57,10 +57,10 @@ app.use("/api/v1/factory", factoryRouter);
 app.use("/api/v1/factory/products", factoryProductRouter);
 app.use("/api/v1/factory-product-category", factoryProductCategoryRouter);
 app.use("/api/v1/factory-feedback", factoryFeedbackRouter);
-app.use("/api/factory-product-feedbacks", factoryProductFeedbackRoutes);
+app.use("/api/v1/factory-product-feedbacks", factoryProductFeedbackRoutes);
 app.use("/api/v1/factory-product-reviews", FactoryProductReviewRoutes);
 app.use("/api/v1/factory-orders", factoryOrderRouter);
-app.use("/api/factory/transactions", factoryTransactionRouter);
+app.use("/api/v1/factory/transactions", factoryTransactionRouter);
 
 app.get("/health", (req, res) => {
   res.status(200).json({

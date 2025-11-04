@@ -17,10 +17,7 @@ export const createFactorySchema = z.object({
     .url("Factory cover image must be a valid URL")
     .optional(),
 
-  factoryLogo: z
-    .string()
-    .url("Factory logo must be a valid URL")
-    .optional(),
+  factoryLogo: z.string().url("Factory logo must be a valid URL").optional(),
 
   factoryLicenseNumber: z
     .string()
@@ -63,10 +60,7 @@ export const updateFactorySchema = z.object({
     .url("Factory cover image must be a valid URL")
     .optional(),
 
-  factoryLogo: z
-    .string()
-    .url("Factory logo must be a valid URL")
-    .optional(),
+  factoryLogo: z.string().url("Factory logo must be a valid URL").optional(),
 
   factoryLicenseNumber: z
     .string()
@@ -92,7 +86,6 @@ export const updateFactorySchema = z.object({
 
   factoryStatus: z.enum(["pending", "approved", "rejected"]).optional(),
 });
-
 
 // 🏭 Create Factory Product Category Validation
 export const factoryProductCategorySchema = z.object({
@@ -123,7 +116,6 @@ export const updateFactoryProductCategorySchema = z.object({
     .optional(),
 });
 
-
 // Create Factory Product Validation
 export const factoryProductSchema = z.object({
   factoryProductName: z
@@ -141,7 +133,10 @@ export const factoryProductSchema = z.object({
     .url("Product image must be a valid URL")
     .optional(),
   factoryMinOrderUnits: z
-    .preprocess((val) => Number(val), z.number().int("Must be integer").min(1, "Minimum 1 unit"))
+    .preprocess(
+      (val) => Number(val),
+      z.number().int("Must be integer").min(1, "Minimum 1 unit")
+    )
     .optional(),
   factoryProductStatus: z
     .enum(["live", "pending"])
@@ -170,16 +165,15 @@ export const updateFactoryProductSchema = z.object({
     .url("Product image must be a valid URL")
     .optional(),
   factoryMinOrderUnits: z
-    .number()
-    .int("Must be integer")
-    .min(1, "Minimum 1 unit")
+    .preprocess(
+      (val) => Number(val),
+      z.number().int("Must be integer").min(1, "Minimum 1 unit")
+    )
     .optional(),
-  factoryProductStatus: z
-    .enum(["live", "pending"])
-    .optional(),
+  factoryProductStatus: z.enum(["live", "pending"]).optional(),
   factoryProductReviewId: z.string().optional(),
   factoryProductFeedbackId: z.string().optional(),
-  productCategoryId: z.string().optional(), 
+  productCategoryId: z.string().optional(),
 });
 //factory feedback validation
 export const factoryFeedbackValidation = z.object({
@@ -229,7 +223,9 @@ export const factoryOrderValidation = z.object({
   products: z
     .array(
       z.object({
-        factoryProductId: z.string({ required_error: "Product ID is required" }),
+        factoryProductId: z.string({
+          required_error: "Product ID is required",
+        }),
         quantity: z
           .number({ required_error: "Quantity is required" })
           .min(1, "Quantity must be at least 1")
